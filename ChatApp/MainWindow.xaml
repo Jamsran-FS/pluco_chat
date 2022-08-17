@@ -1,0 +1,478 @@
+﻿<Window x:Class="ChatApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChatApp"
+        d:DataContext="{d:DesignInstance Type=local:MainWindow}"
+        xmlns:classes="clr-namespace:ChatApp.Classes"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="Pluco chat" MinHeight="300" Height="800" MinWidth="950" Width="1316" Icon="/logo.png" Closed="Window_Closed" >
+    <Window.Resources>
+        <classes:FirstCharacterConverter x:Key="FirstCharGetter"/>
+
+        <Style TargetType="{x:Type Button}" x:Key="LoginButton">
+            <Setter Property="Background" Value="#0250AA"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#0479FF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="ImageButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#EDEDED"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="RoundedCornerButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#DFDFDF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="SendButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="0 14 14 0">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#DFDFDF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="SelectLanguageButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="14 0 0 14">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#DFDFDF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid Background="#F8F8FA">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="59" />
+            <ColumnDefinition Width="198" />
+            <ColumnDefinition Width="279" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Separator Grid.ColumnSpan="4" Height="1" Margin="0" Background="#DADADA" VerticalAlignment="Top" />
+        <Separator Grid.Column="0" Width="1" Margin="0" Background="#DADADA" HorizontalAlignment="Right" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+        <Separator Grid.Column="1" Width="1" Margin="0" Background="#DADADA" HorizontalAlignment="Right" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+        <Separator Grid.Column="2" Width="1" Margin="0" Background="#DADADA" HorizontalAlignment="Right" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+            <Button x:Name="BtnWorkspace" BorderBrush="Transparent" Style="{StaticResource ImageButton}" BorderThickness="0" Focusable="False" ToolTip="Workspace" Click="BtnWorkspace_Click">
+                <Grid Width="58" Height="54">
+                    <Border Width="34" Height="34" BorderThickness="1" BorderBrush="#4465CF" Background="#5A81FF" CornerRadius="6">
+                        <TextBlock Text="PLC" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="16"/>
+                    </Border>
+                </Grid>
+            </Button>
+            <Button x:Name="BtnUserSettings" BorderBrush="Transparent" Style="{StaticResource ImageButton}" BorderThickness="0" Focusable="False" ToolTip="User account" Click="BtnUserSettings_Click">
+                <Grid Width="58" Height="50">
+                    <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,-7,0,0" Width="32" Source="/Resources/user.png"/>
+                </Grid>
+            </Button>
+            <Button x:Name="BtnCalendar" BorderBrush="Transparent" Style="{StaticResource ImageButton}" BorderThickness="0" Focusable="False" ToolTip="Calendar" Click="BtnCalendar_Click">
+                <Grid Width="58" Height="50">
+                    <Image RenderOptions.BitmapScalingMode="Linear" Margin="0,-24,0,0" Width="19" Source="/Resources/calendar.png"/>
+                    <TextBlock Text="일정" FontSize="11.5" Foreground="#434343" Margin="0,0,0,7" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                </Grid>
+            </Button>
+            <Button x:Name="BtnReport" BorderBrush="Transparent" Style="{StaticResource ImageButton}" BorderThickness="0" Focusable="False" ToolTip="Report" Click="BtnReport_Click">
+                <Grid Width="58" Height="52">
+                    <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,-18,0,0" Width="21" Source="/Resources/report.png"/>
+                    <TextBlock Text="리포트" FontSize="11.5" Foreground="#434343" Margin="0,0,0,2" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                </Grid>
+            </Button>
+        </StackPanel>
+
+        <Button Grid.Column="0" x:Name="BtnSettings" VerticalAlignment="Bottom" BorderBrush="Transparent" Style="{StaticResource ImageButton}" BorderThickness="0" Focusable="False" ToolTip="Settings" Click="BtnSettings_Click">
+            <Grid Width="58" Height="48">
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,0" Width="22" Source="/Resources/settings.png"/>
+            </Grid>
+        </Button>
+
+        <Grid Grid.Column="1" Height="28" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Separator Grid.Column="0" Width="1" Margin="0" Background="#DADADA" HorizontalAlignment="Right" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+            <Separator Grid.ColumnSpan="4" Height="1" Margin="0" Background="#DADADA" VerticalAlignment="Bottom" />
+
+            <Button x:Name="BtnAddMember" Grid.Column="0" BorderBrush="Transparent" Style="{StaticResource ImageButton}" BorderThickness="0" Focusable="False" ToolTip="Add member" Click="BtnAddMember_Click">
+                <Grid Width="97" Height="27">
+                    <TextBlock Text="+멤버 추가" FontSize="11.5" Foreground="#434343" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </Button>
+            <Button x:Name="BtnMemberRequest" Grid.Column="1" BorderBrush="Transparent" Style="{StaticResource ImageButton}" BorderThickness="0" Focusable="False" ToolTip="Member request" Click="BtnMemberRequest_Click">
+                <Grid Width="97" Height="27">
+                    <TextBlock Text="+멤버 요청" FontSize="11.5" Foreground="#434343" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </Button>
+        </Grid>
+        <!--#region Middle-->
+        <ScrollViewer Grid.Column="1" Margin="0 28 0 0" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="0,0,0,0">
+                <ItemsControl x:Name="UserItemsControl" ItemsSource="{Binding Users}" Margin="0,0,0,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Name="BtnUser" Style="{StaticResource ImageButton}" BorderBrush="Transparent" Tag="{Binding}" Click="BtnUser_Click">
+                                <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" Margin="0,0,0,0" Width="197" Height="32">
+                                    <Grid Width="22" Height="22" Margin="12,0,0,0">
+                                        <Border Width="22" Height="22" CornerRadius="4">
+                                            <Border.Style>
+                                                <Style TargetType="{x:Type Border}">
+                                                    <Setter Property="Background" Value="{Binding Color}"/>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                        <TextBlock Foreground="White" Height="18" Width="18" FontSize="12" Margin="0,4,0,0" FontWeight="Regular" FontFamily="Hind Madurai" TextAlignment="Center" >
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="Text" Value="{Binding Path=FullName, Converter={StaticResource FirstCharGetter}}"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+                                    <TextBlock Text="{Binding FullName}" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="14" FontWeight="Regular" FontFamily="Roboto" Foreground="#959595"/>
+                                    <Border Width="8" Height="8" CornerRadius="4" Margin="8 0 0 0" BorderThickness="1" BorderBrush="Gray">
+                                        <Border.Style>
+                                            <Style TargetType="{x:Type Border}">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                        <Setter Property="Background" Value="#2BAC76"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                    </Border>
+                                </StackPanel>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+        <!--#endregion-->
+
+        <Grid Grid.Column="2" Height="28" VerticalAlignment="Top">
+            <Separator Grid.ColumnSpan="4" Height="1" Margin="0" Background="#DADADA" VerticalAlignment="Bottom" />
+            <Button x:Name="BtnCreateChatRoom" BorderBrush="Transparent" Style="{StaticResource ImageButton}" BorderThickness="0" Focusable="False" ToolTip="Create chat room" Click="BtnCreateChatRoom_Click">
+                <Grid Width="278" Height="27">
+                    <TextBlock Text="+워크스페이스 생성" FontSize="11.5" Foreground="#434343" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </Button>
+        </Grid>
+        <ScrollViewer Grid.Column="2" Margin="0 28 0 0" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="0,0,0,0">
+                <ItemsControl x:Name="ChatRoomItemsControl" ItemsSource="{Binding ChatRooms}" Margin="0,0,0,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Name="BtnChatRoom" Style="{StaticResource ImageButton}" BorderBrush="Transparent" Tag="{Binding}" Click="BtnChatRoom_Click">
+                                <Grid Margin="0,0,0,0" Width="278" Height="75">
+                                    <TextBlock Text="Chat Room" VerticalAlignment="Center" Margin="14,-38,0,0" FontSize="12" FontWeight="Regular" FontFamily="Roboto" Foreground="#757575"/>
+                                    <TextBlock Text="{Binding RoomName}" VerticalAlignment="Center" Margin="14,20,0,0" FontSize="16" FontWeight="Regular" FontFamily="Roboto" Foreground="#434343"/>
+                                    <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,15,10" FontSize="11" FontWeight="Regular" FontFamily="Roboto" Foreground="#757575">
+                                        <Run Text="{Binding MemberCount}"></Run>
+                                        <Run>Members</Run>
+                                    </TextBlock>
+                                    <Separator Height="1" Margin="0" Background="#DADADA" VerticalAlignment="Bottom" />
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Column="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" MaxHeight="350"/>
+            </Grid.RowDefinitions>
+
+            <Separator Grid.Row="0" Height="1" Margin="0" Background="#DADADA" VerticalAlignment="Bottom" />
+            <Separator Grid.Row="2" Height="1" Margin="0" Background="#DADADA" VerticalAlignment="Top" />
+
+            <Grid Grid.Row="0">
+                <TextBlock x:Name="LblChatType" Text="Chat Type" Foreground="#757575" FontSize="11" FontWeight="Regular" Margin="14 6 0 0" VerticalAlignment="Top"/>
+                <StackPanel Orientation="Horizontal" Margin="12 12 0 0" VerticalAlignment="Center">
+                    <TextBlock x:Name="LblChatTitle" Text="Chat Title" Foreground="#434343" FontSize="20" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="LblIsActive" Text="online" Foreground="#2BAC76" FontSize="11.5" FontWeight="SemiBold" Margin="8 0 0 2" VerticalAlignment="Bottom"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 12 0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="BtnStartVideoCall" Margin="0 0 0 0" BorderBrush="Transparent" Style="{StaticResource RoundedCornerButton}" BorderThickness="0" Focusable="False" ToolTip="Start video call" Click="BtnStartVideoCall_Click">
+                            <Grid Width="32" Height="30">
+                                <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,0" Width="20" Source="/Resources/video.png"/>
+                            </Grid>
+                        </Button>
+                        <Button x:Name="BtnStartVoiceCall" Margin="0 0 0 0" BorderBrush="Transparent" Style="{StaticResource RoundedCornerButton}" BorderThickness="0" Focusable="False" ToolTip="Start voice call" Click="BtnStartVoiceCall_Click">
+                            <Grid Width="32" Height="30">
+                                <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,0" Width="18" Source="/Resources/call.png"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                    <Button x:Name="BtnRoomMembers" Margin="0 0 0 0" BorderBrush="Transparent" Style="{StaticResource RoundedCornerButton}" BorderThickness="0" Focusable="False" ToolTip="Show room members">
+                        <TextBlock x:Name="LblMemberCount" Visibility="Visible" Text="0 members" Foreground="#757575" FontSize="10.5" FontWeight="Regular" Padding="6 2 6 2"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" Background="White">
+                <ScrollViewer x:Name="ChatMessageScroller" Grid.Column="1" Margin="0 0 0 35" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="0,0,0,0">
+                        <ItemsControl x:Name="ConversationItemsControl" ItemsSource="{Binding Conversation}" Margin="0,0,0,0">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Name="BtnMessage" Background="Transparent" Style="{StaticResource ImageButton}" BorderBrush="Transparent" Tag="{Binding}">
+                                        <Grid Background="Transparent" Margin="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="50"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0" Width="32" Height="32" Margin="12,2,0,0" VerticalAlignment="Top">
+                                                <Border Width="32" Height="32" CornerRadius="4">
+                                                    <Border.Style>
+                                                        <Style TargetType="{x:Type Border}">
+                                                            <Setter Property="Background" Value="{Binding User.Color}"/>
+                                                        </Style>
+                                                    </Border.Style>
+                                                </Border>
+                                                <TextBlock Foreground="White" FontSize="16" Margin="0,0,0,0" FontWeight="SemiBold" FontFamily="Hind Madurai" TextAlignment="Center" VerticalAlignment="Center">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="{x:Type TextBlock}">
+                                                            <Setter Property="Text" Value="{Binding Path=User.FullName, Converter={StaticResource FirstCharGetter}}"/>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </Grid>
+                                            <Grid Grid.Column="1" Background="Transparent" Margin="0 0 0 0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock VerticalAlignment="Top" Margin="16,0,0,0" FontSize="14" FontWeight="SemiBold" FontFamily="Roboto" Foreground="#555555">
+                                                        <Run Text="{Binding User.FullName}"/>
+                                                        <Run Text=","/>
+                                                    </TextBlock>
+                                                    <TextBlock Text="{Binding DateTime}" VerticalAlignment="Top" Margin="10,3,0,0" FontSize="10" FontWeight="Regular" FontFamily="Roboto" Foreground="#959595"/>
+                                                </StackPanel>
+                                                <Border Margin="16,22,0,0" Height="Auto" Background="#F2F2F2" CornerRadius="6">
+                                                    <TextBlock Text="{Binding MessageSource}" Padding="8" TextWrapping="WrapWithOverflow"/>
+                                                </Border>
+                                            </Grid>
+                                            <StackPanel Grid.Column="2" Orientation="Vertical" Margin="-14 22 4 0">
+                                                <Button x:Name="BtnPutEmoji" HorizontalAlignment="Center" BorderBrush="Transparent" Style="{StaticResource RoundedCornerButton}" BorderThickness="0" Focusable="False">
+                                                    <Grid Height="22" Width="22">
+                                                        <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,0" Width="13" Source="/Resources/happy.png"/>
+                                                    </Grid>
+                                                </Button>
+                                                <Button x:Name="BtnReply" HorizontalAlignment="Center" BorderBrush="Transparent" Style="{StaticResource RoundedCornerButton}" BorderThickness="0" Focusable="False">
+                                                    <Grid Height="22" Width="22">
+                                                        <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,0" Width="14" Source="/Resources/reply.png"/>
+                                                    </Grid>
+                                                </Button>
+                                                <Button x:Name="BtnTranslateMessage" HorizontalAlignment="Center" BorderBrush="Transparent" Style="{StaticResource RoundedCornerButton}" BorderThickness="0" Focusable="False">
+                                                    <Grid Height="22" Width="22">
+                                                        <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,0" Width="15" Source="/Resources/translate.png"/>
+                                                    </Grid>
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+                <StackPanel x:Name="LblTranslationLanguage" Orientation="Horizontal" Margin="0 0 4 4" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="8,4,0,4" Width="15" Source="/Resources/translate.png"/>
+                    <TextBlock x:Name="LblTargetLanguage" Text="Detect language->English" VerticalAlignment="Center" Margin="10,0,8,0" FontSize="12" FontWeight="Regular" FontFamily="Roboto" Foreground="#959595"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="46*" />
+                    <RowDefinition Height="54*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="14 5 14 5" Orientation="Horizontal">
+                    <Button Grid.Column="0" x:Name="BtnChatOnly" VerticalAlignment="Bottom" BorderBrush="Transparent" Style="{StaticResource RoundedCornerButton}" BorderThickness="0" Focusable="False" ToolTip="Chat only" Click="BtnChatOnly_Click">
+                        <Grid Width="36" Height="32">
+                            <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,0" Width="20" Source="/Resources/chat.png"/>
+                        </Grid>
+                    </Button>
+                    <Button Grid.Column="0" x:Name="BtnChatWithTranslate" VerticalAlignment="Bottom" BorderBrush="Transparent" Style="{StaticResource RoundedCornerButton}" BorderThickness="0" Focusable="False" ToolTip="Chat with translation" Click="BtnChatWithTranslate_Click">
+                        <Grid Width="36" Height="32">
+                            <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,0" Width="24" Source="/Resources/chat_translate.png"/>
+                        </Grid>
+                    </Button>
+                    <Button Grid.Column="0" x:Name="BtnUploadFile" VerticalAlignment="Bottom" BorderBrush="Transparent" Style="{StaticResource RoundedCornerButton}" BorderThickness="0" Focusable="False" ToolTip="Upload file" Click="BtnUploadFile_Click">
+                        <Grid Width="36" Height="32">
+                            <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,0" Width="24" Source="/Resources/upload.png"/>
+                        </Grid>
+                    </Button>
+                    <Button Grid.Column="0" x:Name="BtnUploadImage" VerticalAlignment="Bottom" BorderBrush="Transparent" Style="{StaticResource RoundedCornerButton}" BorderThickness="0" Focusable="False" ToolTip="Upload image" Click="BtnUploadImage_Click">
+                        <Grid Width="36" Height="32">
+                            <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,0" Width="24" Source="/Resources/image.png"/>
+                        </Grid>
+                    </Button>
+                    <Button Grid.Column="0" x:Name="BtnMention" VerticalAlignment="Bottom" BorderBrush="Transparent" Style="{StaticResource RoundedCornerButton}" BorderThickness="0" Focusable="False" ToolTip="Mention" Click="BtnMention_Click">
+                        <Grid Width="36" Height="32">
+                            <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,-5,0,0" Width="21" Source="/Resources/at.png"/>
+                        </Grid>
+                    </Button>
+                    <Button Grid.Column="0" x:Name="BtnEmoji" VerticalAlignment="Bottom" BorderBrush="Transparent" Style="{StaticResource RoundedCornerButton}" BorderThickness="0" Focusable="False" ToolTip="Emoji" Click="BtnEmoji_Click">
+                        <Grid Width="36" Height="32">
+                            <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,0" Width="22" Source="/Resources/smile.png"/>
+                        </Grid>
+                    </Button>
+                    <Button Grid.Column="0" x:Name="BtnTextFormating" VerticalAlignment="Bottom" BorderBrush="Transparent" Style="{StaticResource RoundedCornerButton}" BorderThickness="0" Focusable="False" ToolTip="Text formating" Click="BtnTextFormating_Click">
+                        <Grid Width="36" Height="32">
+                            <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,-5,0,0" Width="24" Source="/Resources/font.png"/>
+                        </Grid>
+                    </Button>
+                    <Button Grid.Column="0" x:Name="BtnVoiceMessage" VerticalAlignment="Bottom" BorderBrush="Transparent" Style="{StaticResource RoundedCornerButton}" BorderThickness="0" Focusable="False" ToolTip="Voice message" Click="BtnVoiceMessage_Click">
+                        <Grid Width="36" Height="32">
+                            <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,0" Width="18" Source="/Resources/voice.png"/>
+                        </Grid>
+                    </Button>
+                </StackPanel>
+
+                <Grid x:Name="TextInputGrid" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48*" />
+                        <ColumnDefinition Width="52*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Margin="14 0 4 10" BorderBrush="#DADADA" BorderThickness="1" CornerRadius="14">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="42" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="40" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" x:Name="BtnSelectLanguage" VerticalAlignment="Stretch" BorderBrush="Transparent" Style="{StaticResource SelectLanguageButton}" BorderThickness="0" Focusable="False" ToolTip="Select target language" PreviewMouseLeftButtonUp="BtnSelectLanguage_PreviewMouseLeftButtonUp">
+                                <Grid Width="42">
+                                    <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="6,2,0,0" Width="26" Source="/Resources/open_translate.png"/>
+                                </Grid>
+                            </Button>
+                            <Separator Grid.Column="0" Width="1" Margin="0 4 0 4" Background="#DADADA" HorizontalAlignment="Right" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                            <RichTextBox x:Name="TbTranslationInput" Grid.Column="1" Background="Transparent" Height="Auto" MaxHeight="280" VerticalScrollBarVisibility="Auto" FontFamily="Roboto" FontSize="16" Padding="6 10 0 8" BorderThickness="0" KeyDown="TbTranslationInput_KeyDown"/>
+                            <Button Grid.Column="2" x:Name="BtnTranslate" VerticalAlignment="Stretch" BorderBrush="Transparent" Style="{StaticResource SendButton}" BorderThickness="0" Focusable="False" ToolTip="Translate" Click="BtnTranslate_Click">
+                                <Grid Width="40">
+                                    <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="5,0,0,0" Width="12" Source="/Resources/next.png"/>
+                                </Grid>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="1" Margin="14 0 10 8" BorderBrush="#DADADA" BorderThickness="1" CornerRadius="14">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="50" />
+                            </Grid.ColumnDefinitions>
+                            <RichTextBox x:Name="TbChatInput" Grid.Column="0" Background="Transparent" Height="Auto" MaxHeight="280" VerticalScrollBarVisibility="Auto" FontFamily="Roboto" FontSize="16" Margin="8 0 0 0" Padding="0 10 0 8" BorderThickness="0" KeyDown="TbChatInput_KeyDown" KeyUp="TbChatInput_KeyUp"/>
+                            <Button Grid.Column="1" x:Name="BtnSendMessage" VerticalAlignment="Stretch" BorderBrush="Transparent" Style="{StaticResource SendButton}" BorderThickness="0" Focusable="False" ToolTip="Send message" Click="BtnSendMessage_Click">
+                                <Grid Width="50">
+                                    <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,0" Width="26" Source="/Resources/send.png"/>
+                                </Grid>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Popup x:Name="LanguageSelectionPopup" IsOpen="False" StaysOpen="False" Width="292" Height="150" Placement="Relative" PopupAnimation="Scroll" AllowsTransparency="True" LostFocus="LanguageSelectionPopup_LostFocus">
+            <Border BorderBrush="#DADADA" BorderThickness="1" CornerRadius="6" Margin="15" Background="#FFFFFF">
+                <Border.BitmapEffect>
+                    <DropShadowBitmapEffect Color="#555555" Softness="10" ShadowDepth="6" Opacity="0.3" />
+                </Border.BitmapEffect>
+                <StackPanel Orientation="Vertical" Margin="30 10 30 0">
+                    <TextBlock Text="Select target language:"/>
+                    <ComboBox x:Name="CbTargetLanguages" Margin="0 6 0 0"/>
+                    <Button x:Name="BtnChangeTranslationLang" BorderBrush="Gray" Style="{StaticResource LoginButton}" Margin="0 15 0 0" BorderThickness="1" Focusable="False" ToolTip="Change translation language" Click="BtnChangeTranslationLang_Click">
+                        <Grid Height="28">
+                            <TextBlock Text="Change language" Foreground="White" FontSize="11" FontFamily="Roboto" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Popup>
+    </Grid>
+</Window>
